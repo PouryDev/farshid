@@ -21,7 +21,7 @@ const changeTheme = () => {
   <div class="navbar bg-primary text-black rounded shadow-xl"
        style="margin: 20px auto 0 auto; width: 90%; justify-content: center">
     <div class="flex-1">
-      <a class="btn btn-ghost text-xl">NOC Notifier</a>
+      <a class="btn btn-ghost text-xl">NOC Notifier (By Pouriya Khazaei)</a>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1">

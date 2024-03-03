@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeMount, reactive} from "vue";
+import {onMounted, reactive} from "vue";
 
 import '../styles/style.css';
 import '../style.css';
@@ -33,7 +33,15 @@ const getGroups = async (groups = null) => {
     })
   })
 
+  try {
+    await Groups.notify(states.activeGroups, activeGroups)
+  } catch (e) {
+    console.log('audio error', e)
+  }
   states.activeGroups = activeGroups
+  if (states.groupStatus === 'active') {
+    states.groups = states.activeGroups
+  }
 }
 
 const getArchivedGroups = groups => {
@@ -56,13 +64,14 @@ const getArchivedGroups = groups => {
   states.archivedGroups = archivedGroups
 }
 
-const changeGroupStatus = async status => {
+const changeGroupStatus = async (status = null) => {
   if (status !== null) {
     states.groupStatus = status
     return
   }
   if (states.groupStatus === 'active') {
     states.groupStatus = 'archived'
+    states.groups = []
     const groups = await Groups.getArchivedGroups()
     getArchivedGroups(groups)
     states.groups = states.archivedGroups
@@ -76,6 +85,7 @@ const states = reactive({
   groups: [],
   archivedGroups: [],
   activeGroups: [],
+  groupLen: 0,
   groupStatus: 'active',
   editCommentModal: {
     topicID: '',
@@ -90,8 +100,9 @@ const states = reactive({
   }
 })
 
-onBeforeMount(async () => {
+onMounted(async () => {
   await getGroups()
+  states.groups = states.activeGroups
 })
 
 const editCommentShowUpdateHandler = () => {
@@ -116,7 +127,7 @@ setInterval(() => {
     <div class="form-control w-52">
       <label class="cursor-pointer label">
         <span class="label-text">Show Archived</span>
-        <input type="checkbox" class="toggle toggle-primary" @change="changeGroupStatus" />
+        <input type="checkbox" class="toggle toggle-primary" @change="changeGroupStatus()" />
       </label>
     </div>
     <table class="table table-zebra transition-shadow" style="text-align: center!important;">
