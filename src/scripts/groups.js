@@ -64,9 +64,9 @@ const notify = async (oldGroups, newGroups) => {
         newIDs[group.name] = group.id
     })
 
-    newIDs.forEach((val, key) => {
+    Object.keys(newIDs).forEach(key => {
         if (!oldIDs.hasOwnProperty(key)) {
-            if (oldIDs[key] == val) {
+            if (oldIDs[key] == newIDs[key]) {
                 flag = true
             }
         }
