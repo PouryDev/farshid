@@ -52,11 +52,27 @@ const getArchivedGroups = async () => {
 
 
 const notify = async (oldGroups, newGroups) => {
-    const oldIDs = oldGroups.map(record => record.topicID)
-    const currentIDs = newGroups.map(record => record.topicID)
-    const newTopicIDs = currentIDs.filter(id => !oldIDs.includes(id))
-    console.log('new topic', newTopicIDs)
-    if (newTopicIDs.length > 0) {
+    let flag = false
+
+    const oldIDs = {}
+    oldGroups.map(group => {
+        oldIDs[group.name] = group.id
+    })
+
+    const newIDs = {}
+    newGroups.map(group => {
+        newIDs[group.name] = group.id
+    })
+
+    newIDs.forEach((val, key) => {
+        if (!oldIDs.hasOwnProperty(key)) {
+            if (oldIDs[key] == val) {
+                flag = true
+            }
+        }
+    })
+
+    if (flag) {
         const audio = new Audio('/933-preview.mp3');
         audio.addEventListener('canplay', () => {
             audio.play()

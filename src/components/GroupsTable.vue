@@ -34,6 +34,8 @@ const getGroups = async (groups = null) => {
   })
 
   try {
+    console.log('old groups', states.activeGroups)
+    console.log('new groups', activeGroups)
     await Groups.notify(states.activeGroups, activeGroups)
   } catch (e) {
     console.log('audio error', e)
