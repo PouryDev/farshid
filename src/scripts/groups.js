@@ -64,11 +64,12 @@ const notify = async (oldGroups, newGroups) => {
         newIDs[group.name] = group.id
     })
 
+    console.log('old ids', oldIDs)
+    console.log('new ids', newIDs)
+
     Object.keys(newIDs).forEach(key => {
         if (!oldIDs.hasOwnProperty(key)) {
-            if (oldIDs[key] == newIDs[key]) {
-                flag = true
-            }
+            flag = true
         }
     })
 
