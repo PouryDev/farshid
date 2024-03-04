@@ -18,6 +18,10 @@ const deleteGroup = async (id, name) => {
     const response = await axios.post('/deleterecord.php', {
         topicID: id,
         GroupName: name,
+    }, {
+        headers: {
+            "Content-Type": 'application/x-www-form-urlencoded',
+        }
     })
 
     return response.status === 200
